@@ -33,11 +33,19 @@ jobs:
           name: DevSkim-artifact
           path: ${{ github.workspace }}  
   
+  gitleaks:
+    runs-on: ubuntu-latest
+    needs:
+      - Auto_Code_Review
+    steps:
+    - uses: actions/checkout@v1
+    - name: gitleaks-action
+      uses: zricethezav/gitleaks-action@master
   build:
     # The type of runner that the job will run on
     runs-on: ${{matrix.platforms}}
     needs:
-      - Auto_Code_Review
+      - gitleaks
     strategy:
       matrix:
         platforms: [ubuntu-latest]
@@ -61,6 +69,8 @@ jobs:
   securitytest:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    needs:
+      - Auto_Code_Review
     #needs: build
     steps:
       - uses: actions/checkout@v2
