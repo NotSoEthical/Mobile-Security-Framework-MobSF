@@ -33,7 +33,7 @@ jobs:
           name: DevSkim-artifact
           path: ${{ github.workspace }}  
   SAS:
-    runs-on: ${{matrix.platforms}}
+    runs-on: $ubuntu-latest
     needs: Auto_Code_Review
     steps:
     - uses: actions/checkout@master
